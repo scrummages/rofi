@@ -1,0 +1,9 @@
+#!/bin/bash
+
+query=$(rofi -dmenu -i -p "Search in dictionary" -font 'mono 18' -theme glue_pro_blue -show-icons -lines 0 -no-fixed-num-lines)
+
+results=$(grep --color=auto -i "^$query" "/home/clyde/Media/PDF and Books/Oxford English Dictionary.txt" | head -n 4 | sed G)
+
+if [ -n "$query" ]; then
+    rofi -font 'mono 18' -theme glue_pro_blue -e "$results"
+fi
