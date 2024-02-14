@@ -22,6 +22,8 @@ amazon"
 
 set selected (echo $options | rofi -dmenu -font "mono 18" -theme glue_pro_blue)
 
+test -n $selected && exit 1
+
 switch $selected
     case "hackernews"
         waterfox "https://news.ycombinator.com/active"
