@@ -21,7 +21,7 @@ options=("󰚩 chatgpt"
 "ebay thinkpads"
 )
 
-selected=$(printf "%s\n" "${options[@]}" | rofi -p "open link" -dmenu -font "mono 18" -theme glue_pro_blue)
+selected=$(printf "%s\n" "${options[@]}" | rofi -p "open link" -dmenu -font "Comic Mono 18" -theme glue_pro_blue)
 
 case $selected in
     " hackernews")
@@ -80,8 +80,5 @@ case $selected in
         ;;
     "ebay thinkpads")
         waterfox "https://www.ebay.es/sch/i.html?_from=R40&_nkw=thinkpad&_sacat=0&LH_ItemCondition=3000&LH_BIN=1&LH_PrefLoc=3&_udhi=60&_sop=12"
-        ;;
-    *)
-        waterfox $selected
         ;;
 esac

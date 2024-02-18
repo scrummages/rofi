@@ -1,2 +1,2 @@
 #!/bin/bash
-rofi -show calc -font 'mono 18' -theme glue_pro_blue | awk '{print $NF}' | xclip -sel c
+rofi -show calc -font 'Comic Mono 18' -theme glue_pro_blue | awk '{print $NF}' | xclip -sel c

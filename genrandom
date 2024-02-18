@@ -28,4 +28,4 @@ if [[ "${strings: -1}" == $'\n' ]]; then
     strings="${strings%$'\n'}"
 fi
 
-echo -e "$words\n$strings" | rofi -dmenu -font "mono 18" -theme glue_pro_blue | xclip -selection clipboard
+echo -e "$words\n$strings" | rofi -dmenu -font "Comic Mono 18" -theme glue_pro_blue | xclip -selection clipboard
