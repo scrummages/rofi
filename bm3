@@ -26,7 +26,7 @@ select_info() {
     }
 }
 
-options=("save information (w)" "show information (x)" "delete entry (d)")
+options=("show information (x)" "save information (w)" "delete entry (d)")
 
 selected_option=$(printf "%s\n" "${options[@]}" | rofi -dmenu -p "Select an option" -font 'Comic Mono 18' -theme glue_pro_blue)
 
