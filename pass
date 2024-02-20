@@ -1,5 +1,18 @@
 #!/bin/bash
 
+#  IMPORTANT: this program asumes you have your passwords
+#  stored in this format:
+#
+#  decription-username
+#
+#  like, for example:
+#  twitter-johnwick3
+#  facebook-longAnd_complicated-username123
+#  
+#  this is to ensure you can store such information, and not
+#  have to remember it. if you don't like the format, i'm
+#  sorry, you may change the script below
+
 password_store_dir="$HOME/.password-store/"
 
 if [ ! -d "$password_store_dir" ]; then
@@ -15,10 +28,11 @@ if [ -z "$selected_entry" ]; then
 fi
 
 options=(
-"autotype entry name
-copy and paste macro
+"entry name paste macro
+password paste macro
+copy password to clipboard
 autotype password
-copy password to clipboard")
+autotype entry name")
 
 selected_option=$(rofi -font 'Comic Mono 18' -theme glue_pro_blue -dmenu -p "Select an option for $selected_entry:" <<< "${options[@]}")
 
@@ -31,15 +45,21 @@ case "$selected_option" in
     "autotype entry name")
         echo "$selected_entry" | sed 's/^.*-//' | xdotool type --clearmodifiers --delay 8 --file -
         ;;
+    "entry name paste macro")
+        echo "$selected_entry" | sed 's/^.*-//' | xclip -sel c && xdotool key ctrl+shift+v
+        ;;
     "autotype password")
         echo "$selected_entry"
         pass "$selected_entry" | xdotool type --clearmodifiers --delay 50 --file -
         ;;
-    "copy and paste macro")
-        pass "$selected_entry" | xclip -sel c && xdotool key ctrl+shift+v
+    "password paste macro")
+        pass "$selected_entry" | tr -d '\n' | xclip -sel c && xdotool key ctrl+shift+v
         ;;
     "copy password to clipboard")
         pass "$selected_entry" | xclip -sel c
+        ;;
+    "entry name copy and paste macro")
+        echo "$selected_entry" | sed 's/^.*-//' | tr -d '\n' | xclip -sel c && xdotool key ctrl+shift+v
         ;;
     *)
         echo "Invalid option selected."

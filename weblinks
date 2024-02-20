@@ -7,13 +7,15 @@ options=("󰚩 chatgpt"
 " twitch"
 "󰗃 youtube"
 " hackernews"
+"󰫑 mastodon"
 "󰖬 wikipedia"
-" pinterest"
+" amazon"
+" gnu manuals"
+" arch linux"
 " reddit"
 " instagram"
-"󰫑 mastodon"
+" pinterest"
 "󰟞 123movies"
-" amazon"
 "wiktionary es"
 "wiktionary en"
 "dle rae"
@@ -24,6 +26,12 @@ options=("󰚩 chatgpt"
 selected=$(printf "%s\n" "${options[@]}" | rofi -p "open link" -dmenu -font "Comic Mono 18" -theme glue_pro_blue)
 
 case $selected in
+   " gnu manuals")
+        waterfox "https://www.gnu.org/manual/manual.html"
+        ;;
+    " arch linux")
+        waterfox "https://bbs.archlinux.org/search.php?action=show_replies"
+        ;;
     " hackernews")
         waterfox "https://news.ycombinator.com/active"
         ;;
