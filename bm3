@@ -26,16 +26,16 @@ select_info() {
     }
 }
 
-options=("show information (x)" "save information (w)" "delete entry (d)")
+options=("show (x)" "save (b)" "delete (d)")
 
 selected_option=$(printf "%s\n" "${options[@]}" | rofi -dmenu -p "Select an option" -font 'Comic Mono 18' -theme glue_pro_blue)
 
 case $selected_option in
-    "save information (w)")
+    "save (b)")
         new_info=$(rofi -dmenu -p "Enter information to save" -font 'Comic Mono 18' -theme glue_pro_blue)  
         [ -n "$new_info" ] && save_info "$new_info"
         ;;
-    "show information (x)")
+    "show (x)")
         select_info
         ;;
     "delete entry (d)")
