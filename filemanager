@@ -1,0 +1,2 @@
+#!/bin/bash
+rofi -font 'Comic Mono 18' -theme glue_pro_blue rofi -modi "filebrowser" -show filebrowser

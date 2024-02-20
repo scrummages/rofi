@@ -1,0 +1,7 @@
+#!/bin/bash
+
+query=$(rofi -dmenu -i -p "Translate" -font 'Comic Mono 18' -theme glue_pro_blue -show-icons -lines 0 -no-fixed-num-lines)
+
+if [ -n "$query" ]; then
+    waterfox "https://translate.google.es/?sl=auto&tl=es&text=$query" &
+fi
