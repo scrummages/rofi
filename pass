@@ -1,0 +1,49 @@
+#!/bin/bash
+
+password_store_dir="$HOME/.password-store/"
+
+if [ ! -d "$password_store_dir" ]; then
+    rofi -e "Password store directory not found: $password_store_dir"
+    exit 1
+fi
+
+selected_entry=$(ls "$password_store_dir" | rev | cut -c 5- | rev | rofi -font 'Comic Mono 18' -theme glue_pro_blue -dmenu -p "Select pass entry:")
+
+if [ -z "$selected_entry" ]; then
+    echo "Entry selection canceled."
+    exit 0
+fi
+
+options=(
+"autotype entry name
+copy and paste macro
+autotype password
+copy password to clipboard")
+
+selected_option=$(rofi -font 'Comic Mono 18' -theme glue_pro_blue -dmenu -p "Select an option for $selected_entry:" <<< "${options[@]}")
+
+if [ -z "$selected_option" ]; then
+    echo "Option selection canceled."
+    exit 0
+fi
+
+case "$selected_option" in
+    "autotype entry name")
+        echo "$selected_entry" | sed 's/^.*-//' | xdotool type --clearmodifiers --delay 8 --file -
+        ;;
+    "autotype password")
+        echo "$selected_entry"
+        pass "$selected_entry" | xdotool type --clearmodifiers --delay 50 --file -
+        ;;
+    "copy and paste macro")
+        pass "$selected_entry" | xclip -sel c && xdotool key ctrl+shift+v
+        ;;
+    "copy password to clipboard")
+        pass "$selected_entry" | xclip -sel c
+        ;;
+    *)
+        echo "Invalid option selected."
+        ;;
+esac
+
+exit 0
