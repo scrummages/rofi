@@ -1,30 +1,30 @@
 #!/bin/bash
 
 links=$(cat <<EOF
-"󰚩 chatgpt" @ https://chat.openai.com/chat/
-" bing ai" @ https://www.bing.com/search?q=Bing+AI&showconv=1&FORM=hpcodx/
-"󰊫 gmail" @ https://gmail.com/
-" twitter" @ https://twitter.com/
-" twitch" @ https://www.twitch.tv/
-"󰗃 youtube" @ https://www.youtube.com/
-" hackernews" @ https://news.ycombinator.com/active
-"󰫑 mastodon" @ mastodon.social/
-"󰖬 wikipedia" @ https://en.wikipedia.org/
-" amazon" @ amazon.es
-" gnu manuals" @ https://www.gnu.org/manual/manual.html
-" arch linux" @ https://bbs.archlinux.org/search.php?action=show_replies
-" reddit" @ https://www.reddit.com/
-" instagram" @ https://www.instagram.com/
-" pinterest" @ https://www.pinterest.com/
-"󰟞 123movies" @ https://ww2.123moviesfree.net/
-"wiktionary es" @ https://es.wiktionary.org/
-"wiktionary en" @ https://en.wiktionary.org/
-"dle rae" @ https://dle.rae.es/diccionario/
-"oxford dictionary" @ https://www.oxfordlearnersdictionaries.com/
-"ebay thinkpads" @ https://www.ebay.es/sch/i.html?_from=R40&_nkw=thinkpad&_sacat=0&LH_ItemCondition=3000&LH_BIN=1&LH_PrefLoc=3&_udhi=60&_sop=12
+󰚩 chatgpt @ https://chat.openai.com/chat/
+ bing ai @ https://www.bing.com/search?q=Bing+AI&showconv=1&FORM=hpcodx/
+󰊫 gmail @ https://gmail.com/
+ twitter @ https://twitter.com/
+ twitch @ https://www.twitch.tv/
+󰗃 youtube @ https://www.youtube.com/
+ hackernews @ https://news.ycombinator.com/active
+󰫑 mastodon @ mastodon.social/
+󰖬 wikipedia @ https://en.wikipedia.org/
+ amazon @ amazon.es
+ gnu manuals @ https://www.gnu.org/manual/manual.html
+ arch linux @ https://bbs.archlinux.org/search.php?action=show_replies
+ reddit @ https://www.reddit.com/
+ instagram @ https://www.instagram.com/
+ pinterest @ https://www.pinterest.com/
+󰟞 123movies @ https://ww2.123moviesfree.net/
+wiktionary es @ https://es.wiktionary.org/
+wiktionary en @ https://en.wiktionary.org/
+dle rae @ https://dle.rae.es/diccionario/
+oxford dictionary @ https://www.oxfordlearnersdictionaries.com/
+ebay thinkpads @ https://www.ebay.es/sch/i.html?_from=R40&_nkw=thinkpad&_sacat=0&LH_ItemCondition=3000&LH_BIN=1&LH_PrefLoc=3&_udhi=60&_sop=12
 EOF
 )
 
-link=$(echo "$links" | sed 's/ @.*//' | rofi -dmenu -font "Comic Mono 18")
+link=$(echo "$links" | sed 's/ @.*//' | rofi -dmenu -font "Comic Mono 18" -theme glue_pro_blue)
 
-waterfox $(sed -n 's/'"$link"' @ //p' <<< "$links")
+test -n $link || waterfox $(sed -n 's/'"$link"' @ //p' <<< "$links")
