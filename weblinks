@@ -1,92 +1,30 @@
 #!/bin/bash
 
-options=("󰚩 chatgpt"
-" bing ai"
-"󰊫 gmail"
-" twitter"
-" twitch"
-"󰗃 youtube"
-" hackernews"
-"󰫑 mastodon"
-"󰖬 wikipedia"
-" amazon"
-" gnu manuals"
-" arch linux"
-" reddit"
-" instagram"
-" pinterest"
-"󰟞 123movies"
-"wiktionary es"
-"wiktionary en"
-"dle rae"
-"oxford dictionary"
-"ebay thinkpads"
+links=$(cat <<EOF
+"󰚩 chatgpt" @ https://chat.openai.com/chat/
+" bing ai" @ https://www.bing.com/search?q=Bing+AI&showconv=1&FORM=hpcodx/
+"󰊫 gmail" @ https://gmail.com/
+" twitter" @ https://twitter.com/
+" twitch" @ https://www.twitch.tv/
+"󰗃 youtube" @ https://www.youtube.com/
+" hackernews" @ https://news.ycombinator.com/active
+"󰫑 mastodon" @ mastodon.social/
+"󰖬 wikipedia" @ https://en.wikipedia.org/
+" amazon" @ amazon.es
+" gnu manuals" @ https://www.gnu.org/manual/manual.html
+" arch linux" @ https://bbs.archlinux.org/search.php?action=show_replies
+" reddit" @ https://www.reddit.com/
+" instagram" @ https://www.instagram.com/
+" pinterest" @ https://www.pinterest.com/
+"󰟞 123movies" @ https://ww2.123moviesfree.net/
+"wiktionary es" @ https://es.wiktionary.org/
+"wiktionary en" @ https://en.wiktionary.org/
+"dle rae" @ https://dle.rae.es/diccionario/
+"oxford dictionary" @ https://www.oxfordlearnersdictionaries.com/
+"ebay thinkpads" @ https://www.ebay.es/sch/i.html?_from=R40&_nkw=thinkpad&_sacat=0&LH_ItemCondition=3000&LH_BIN=1&LH_PrefLoc=3&_udhi=60&_sop=12
+EOF
 )
 
-selected=$(printf "%s\n" "${options[@]}" | rofi -p "open link" -dmenu -font "Comic Mono 18" -theme glue_pro_blue)
+link=$(echo "$links" | sed 's/ @.*//' | rofi -dmenu -font "Comic Mono 18")
 
-case $selected in
-   " gnu manuals")
-        waterfox "https://www.gnu.org/manual/manual.html"
-        ;;
-    " arch linux")
-        waterfox "https://bbs.archlinux.org/search.php?action=show_replies"
-        ;;
-    " hackernews")
-        waterfox "https://news.ycombinator.com/active"
-        ;;
-    "󰚩 chatgpt")
-        waterfox "https://chat.openai.com/chat/"
-        ;;
-    " bing ai")
-        waterfox "https://www.bing.com/search?q=Bing+AI&showconv=1&FORM=hpcodx/"
-        ;;
-    "󰊫 gmail")
-        waterfox "https://gmail.com/"
-        ;;
-    " twitter")
-        waterfox "https://twitter.com/"
-        ;;
-    " twitch")
-        waterfox "https://www.twitch.tv/"
-        ;;
-    "󰗃 youtube")
-        waterfox "https://www.youtube.com/"
-        ;;
-    "󰖬 wikipedia")
-        waterfox "https://en.wikipedia.org/"
-        ;;
-    "wiktionary es")
-        waterfox "https://es.wiktionary.org/"
-        ;;
-    "wiktionary en")
-        waterfox "https://en.wiktionary.org/"
-        ;;
-    "oxford dictionary")
-        waterfox "https://www.oxfordlearnersdictionaries.com/"
-        ;;
-    "dle rae")
-        waterfox "https://dle.rae.es/diccionario/"
-        ;;
-    " pinterest")
-        waterfox "https://www.pinterest.com/"
-        ;;
-    " reddit")
-        waterfox "https://www.reddit.com/"
-        ;;
-    " instagram")
-        waterfox "https://www.instagram.com/"
-        ;;
-    "󰫑 mastodon")
-        waterfox "mastodon.social/"
-        ;;
-    "󰟞 123movies")
-        waterfox "https://ww2.123moviesfree.net/"
-        ;;
-    " amazon")
-        waterfox "amazon.es"
-        ;;
-    "ebay thinkpads")
-        waterfox "https://www.ebay.es/sch/i.html?_from=R40&_nkw=thinkpad&_sacat=0&LH_ItemCondition=3000&LH_BIN=1&LH_PrefLoc=3&_udhi=60&_sop=12"
-        ;;
-esac
+waterfox $(sed -n 's/'"$link"' @ //p' <<< "$links")
