@@ -1,2 +1,5 @@
 #!/bin/bash
-rofi -font 'Comic Mono 18' -theme glue_pro_blue -e "$(wget -qO- ipinfo.io)"
+ 
+source $HOME/Media/Code/rofi/rofi_vars
+
+rofi -font "$font" -theme "$theme" -e "$(wget -qO- ipinfo.io)"

@@ -1,9 +1,12 @@
 #!/bin/bash
+ 
+source $HOME/Media/Code/rofi/rofi_vars
+
 
 file_path="$HOME/Media/Random/bm3/bm3_data.txt"
 
 delete_entry() {
-    selected_line=$(cat "$file_path" | sed '1!G;h;$!d' | rofi -dmenu -p "Select information to delete" -width 60 -location 0 -font 'Comic Mono 18' -theme glue_pro_blue)
+    selected_line=$(cat "$file_path" | sed '1!G;h;$!d' | rofi -dmenu -p "Select information to delete" -width 60 -location 0 -font 'Comic Mono 18' -theme "$theme")
     [ -n "$selected_line" ] && sed -i "/$(echo "$selected_line" | sed 's/[\/&]/\\&/g')/d" "$file_path"
 }
 
@@ -12,33 +15,33 @@ save_info() {
 }
 
 select_info() {
-    selected_line=$(cat "$file_path" | sed '1!G;h;$!d' | rofi -font 'Comic Mono 18' -theme glue_pro_blue -dmenu -p "Select information" -width 60 -location 0 -font 'Comic Mono 18' -theme glue_pro_blue)
+    selected_line=$(cat "$file_path" | sed '1!G;h;$!d' | rofi -font 'Comic Mono 18' -theme "$theme" -dmenu -p "Select information" -width 60 -location 0 -font 'Comic Mono 18' -theme "$theme")
 
     [ -n "$selected_line" ] && entry=$(echo -n "$selected_line" | cut -d' ' -f3-) && echo "$selected_line" | grep "https://" && { 
-        choice=$(echo -e "Yes\nNo" | rofi -font 'Comic Mono 18' -theme glue_pro_blue -dmenu -p "Do you want to open in browser?" -i -lines 2 -width 20)
+        choice=$(echo -e "Yes\nNo" | rofi -font 'Comic Mono 18' -theme "$theme" -dmenu -p "Do you want to open in browser?" -i -lines 2 -width 20)
         case $choice in
             "Yes") waterfox "$entry" && exit 0 ;;
             "No") echo -n "$entry" | xclip -selection clipboard ;;
         esac
     } || { 
         echo -n "$entry" | xclip -selection clipboard 
-        test $(echo "$entry" | wc -c) -gt 30 && rofi -font 'Comic Mono 18' -theme glue_pro_blue -e "$entry"
+        test $(echo "$entry" | wc -c) -gt 30 && rofi -font 'Comic Mono 18' -theme "$theme" -e "$entry"
     }
 }
 
 options=("show (x)" "save (b)" "delete (d)")
 
-selected_option=$(printf "%s\n" "${options[@]}" | rofi -dmenu -p "Select an option" -font 'Comic Mono 18' -theme glue_pro_blue)
+selected_option=$(printf "%s\n" "${options[@]}" | rofi -dmenu -p "Select an option" -font 'Comic Mono 18' -theme "$theme")
 
 case $selected_option in
     "save (b)")
-        new_info=$(rofi -dmenu -p "Enter information to save" -font 'Comic Mono 18' -theme glue_pro_blue)  
+        new_info=$(rofi -dmenu -p "Enter information to save" -font 'Comic Mono 18' -theme "$theme")  
         [ -n "$new_info" ] && save_info "$new_info"
         ;;
     "show (x)")
         select_info
         ;;
-    "delete entry (d)")
+    "delete (d)")
         delete_entry
         ;;
 esac

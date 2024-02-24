@@ -1,4 +1,7 @@
 #!/bin/bash
+ 
+source $HOME/Media/Code/rofi/rofi_vars
+
 
 #  IMPORTANT: this program asumes you have your passwords
 #  stored in this format:
@@ -20,7 +23,7 @@ if [ ! -d "$password_store_dir" ]; then
     exit 1
 fi
 
-selected_entry=$(ls "$password_store_dir" | rev | cut -c 5- | rev | rofi -font 'Comic Mono 18' -theme glue_pro_blue -dmenu -p "Select pass entry:")
+selected_entry=$(ls "$password_store_dir" | rev | cut -c 5- | rev | rofi -font 'Comic Mono 18' -theme "$theme" -dmenu -p "Select pass entry:")
 
 if [ -z "$selected_entry" ]; then
     echo "Entry selection canceled."
@@ -34,7 +37,7 @@ copy password to clipboard
 autotype password
 autotype entry name")
 
-selected_option=$(rofi -font 'Comic Mono 18' -theme glue_pro_blue -dmenu -p "Select an option for $selected_entry:" <<< "${options[@]}")
+selected_option=$(rofi -font 'Comic Mono 18' -theme "$theme" -dmenu -p "Select an option for $selected_entry:" <<< "${options[@]}")
 
 if [ -z "$selected_option" ]; then
     echo "Option selection canceled."
