@@ -23,7 +23,10 @@ if [ ! -d "$PASSWORD_STORE_DIR" ]; then
     exit 1
 fi
 
-selected_entry=$(ls "$PASSWORD_STORE_DIR" | rev | cut -c 5- | rev | rofi -font 'Comic Mono 18' -theme "$theme" -dmenu -p "Select pass entry:")
+main_entries=$(ls -1l "$PASSWORD_STORE_DIR" | grep -v ^d | cut -d' ' -f10 | sed 1d | rev | cut -c 5- | rev)
+otp_entries=$(ls -1 "$PASSWORD_STORE_DIR"/otp | rev | cut -c 5- | rev)
+
+selected_entry=$(echo -e "n$main_entries\n$otp_entries" | rofi -font 'Comic Mono 18' -theme "$theme" -dmenu -p "Select pass entry:")
 
 if [ -z "$selected_entry" ]; then
     echo "Entry selection canceled."
@@ -49,14 +52,14 @@ case "$selected_option" in
         echo "$selected_entry" | sed 's/^.*-//' | tr -d '\n' | xclip -sel c && xdotool key ctrl+shift+v
         ;;
     "password paste macro")
-        pass $selected_entry | tr -d '\n' | xclip -sel c && xdotool key ctrl+shift+v
+        pass $selected_entry || pass otp otp/$selected_entry | tr -d '\n' | xclip -sel c && xdotool key ctrl+shift+v
         ;;
     "copy password to clipboard")
-        pass "$selected_entry" | tr -d '\n' | xclip -sel c & sleep 10 && echo "" | xclip -sel c
+       pass $selected_entry || pass otp otp/$selected_entry | tr -d '\n' | xclip -sel c & sleep 10 && echo "" | xclip -sel c
         ;;
     "autotype password")
         echo "$selected_entry"
-        pass "$selected_entry" | xdotool type --clearmodifiers --delay 50 --file -
+        pass $selected_entry || pass otp otp/$selected_entry | xdotool type --clearmodifiers --delay 50 --file -
         ;;
     "entry name copy and paste macro")
         echo "$selected_entry" | tr -d '\n' | sed 's/^.*-//' | tr -d '\n' | xclip -sel c && xdotool key ctrl+shift+v
