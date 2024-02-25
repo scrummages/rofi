@@ -2,6 +2,4 @@
  
 source $HOME/Media/Code/rofi/rofi_vars
 
-rofi -show drun -show-icons -font 'Comic Mono 14' -theme "$theme"
-								  # particular font size								 
-								  #       do not change!								 
+rofi -show drun -show-icons -font "$font" -theme "$theme"
