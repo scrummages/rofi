@@ -16,14 +16,14 @@ source $HOME/Media/Code/rofi/rofi_vars
 #  have to remember it. if you don't like the format, i'm
 #  sorry, you may change the script below
 
-password_store_dir="$HOME/.password-store/"
+export PASSWORD_STORE_DIR="$HOME/Media/Sensible/pass/password-store/"
 
-if [ ! -d "$password_store_dir" ]; then
-    rofi -e "Password store directory not found: $password_store_dir"
+if [ ! -d "$PASSWORD_STORE_DIR" ]; then
+    rofi -font 'Comic Mono 18' -theme "$theme" -e "Password store directory not found: $password_store_dir"
     exit 1
 fi
 
-selected_entry=$(ls "$password_store_dir" | rev | cut -c 5- | rev | rofi -font 'Comic Mono 18' -theme "$theme" -dmenu -p "Select pass entry:")
+selected_entry=$(ls "$PASSWORD_STORE_DIR" | rev | cut -c 5- | rev | rofi -font 'Comic Mono 18' -theme "$theme" -dmenu -p "Select pass entry:")
 
 if [ -z "$selected_entry" ]; then
     echo "Entry selection canceled."
@@ -45,27 +45,24 @@ if [ -z "$selected_option" ]; then
 fi
 
 case "$selected_option" in
-    "autotype entry name")
-        echo "$selected_entry" | sed 's/^.*-//' | xdotool type --clearmodifiers --delay 8 --file -
-        ;;
     "entry name paste macro")
-        echo "$selected_entry" | sed 's/^.*-//' | xclip -sel c && xdotool key ctrl+shift+v
+        echo "$selected_entry" | sed 's/^.*-//' | tr -d '\n' | xclip -sel c && xdotool key ctrl+shift+v
+        ;;
+    "password paste macro")
+        pass $selected_entry | tr -d '\n' | xclip -sel c && xdotool key ctrl+shift+v
+        ;;
+    "copy password to clipboard")
+        pass "$selected_entry" | tr -d '\n' | xclip -sel c & sleep 10 && echo "" | xclip -sel c
         ;;
     "autotype password")
         echo "$selected_entry"
         pass "$selected_entry" | xdotool type --clearmodifiers --delay 50 --file -
         ;;
-    "password paste macro")
-        pass "$selected_entry" | tr -d '\n' | xclip -sel c && xdotool key ctrl+shift+v
-        ;;
-    "copy password to clipboard")
-        pass "$selected_entry" | xclip -sel c
-        ;;
     "entry name copy and paste macro")
-        echo "$selected_entry" | sed 's/^.*-//' | tr -d '\n' | xclip -sel c && xdotool key ctrl+shift+v
+        echo "$selected_entry" | tr -d '\n' | sed 's/^.*-//' | tr -d '\n' | xclip -sel c && xdotool key ctrl+shift+v
         ;;
-    *)
-        echo "Invalid option selected."
+    "autotype entry name")
+        echo "$selected_entry" | sed 's/^.*-//' | tr -d '\n'| xdotool type --clearmodifiers --delay 8 --file -
         ;;
 esac
 

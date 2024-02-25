@@ -3,7 +3,7 @@
 source $HOME/Media/Code/rofi/rofi_vars
 
 
-options="exit i3\npoweroff\nreboot\ncancel"
+options="poweroff\nexit i3\nreboot"
 response=$(echo -e "$options" | rofi -dmenu -p "Select an option:" -font 'Comic Mono 18' -theme "$theme")
 
 case "$response" in
