@@ -16,17 +16,17 @@ source $HOME/Media/Code/rofi/rofi_vars
 #  have to remember it. if you don't like the format, i'm
 #  sorry, you may change the script below
 
-export PASSWORD_STORE_DIR="$HOME/Media/Sensible/pass/password-store/"
+PASSWORD_STORE_DIR="$HOME/.password-store"
 
 if [ ! -d "$PASSWORD_STORE_DIR" ]; then
-    rofi -font 'Comic Mono 18' -theme "$theme" -e "Password store directory not found: $password_store_dir"
+    rofi -font "$font" -theme "$theme" -e "Password store directory not found: $password_store_dir"
     exit 1
 fi
 
-main_entries=$(ls -1l "$PASSWORD_STORE_DIR" | grep -v ^d | cut -d' ' -f10 | sed 1d | rev | cut -c 5- | rev)
+main_entries=$(ls -1l "$PASSWORD_STORE_DIR" | grep -v ^d | cut -d' ' -f9 | sed 1d | rev | cut -c 5- | rev)
 otp_entries=$(ls -1 "$PASSWORD_STORE_DIR"/otp | rev | cut -c 5- | rev)
 
-selected_entry=$(echo -e "$main_entries\n$otp_entries" | rofi -font 'Comic Mono 18' -theme "$theme" -dmenu -p "Select pass entry:")
+selected_entry=$(echo -e "$main_entries\n$otp_entries" | rofi -font "$font" -theme "$theme" -dmenu -p "Select pass entry")
 
 if [ -z "$selected_entry" ]; then
     echo "Entry selection canceled."
@@ -40,7 +40,7 @@ copy password to clipboard
 autotype password
 autotype entry name")
 
-selected_option=$(rofi -font 'Comic Mono 18' -theme "$theme" -dmenu -p "Select an option for $selected_entry:" <<< "${options[@]}")
+selected_option=$(rofi -font "$font" -theme "$theme" -dmenu -p "Select an option for $selected_entry" <<< "${options[@]}")
 
 if [ -z "$selected_option" ]; then
     echo "Option selection canceled."
